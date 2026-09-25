@@ -40,3 +40,10 @@ The main trade-off is that expired entries are not removed automatically. They r
 - An entry with a TTL of `0` expires immediately. `get()` will return `undefined` and remove it.
 - Expiration is inclusive: an entry whose expiration time equals the current clock reading is considered expired by both `get()` and `sweep()`.
 - The cache stores `undefined` values just like any other value. To distinguish a missing key from a stored `undefined`, use `size` or `delete`.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
